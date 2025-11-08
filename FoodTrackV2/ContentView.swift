@@ -7,18 +7,31 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        NavigationStack{
-            Text("This is the main page ")
-                .navigationTitle("FoodTrack")
-            
-            
-        }
-        
-    }
+@Observable
+class MyAliments {
+    var aliments = [Aliment]()
     
 }
+
+
+struct ContentView: View {
+    
+    @State private var myAliments = MyAliments()
+    
+    var body: some View {
+        TabView {
+            Tab("Récap Journalier", systemImage: "star"){
+                RecapView(myAliments: myAliments)
+            }
+            
+            Tab("Saisie", systemImage: "square.and.pencil"){
+                CreateAlimentView(myAliments: myAliments)
+            }
+            
+        }
+    }
+}
+
 
 #Preview {
     ContentView()
