@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct RecapView: View {
-    var myAliments: MyAliments
+    
+    @Environment(\.modelContext) var modelContext
+    @Query var Aliments: [Aliment]
     
     var body: some View {
         NavigationStack{
-            ForEach (myAliments.aliments, id: \.id) { aliment in
+            ForEach (Aliments) { aliment in
                 Section(aliment.nom){
                     Text("Calories:\(aliment.calories)")
                 }
@@ -23,5 +27,5 @@ struct RecapView: View {
 }
 
 #Preview {
-    RecapView(myAliments: MyAliments())
+    RecapView()
 }

@@ -6,26 +6,23 @@
 //
 
 import SwiftUI
+import SwiftData
 
-@Observable
-class MyAliments {
-    var aliments = [Aliment]()
-    
-}
+
 
 
 struct ContentView: View {
     
-    @State private var myAliments = MyAliments()
+
     
     var body: some View {
         TabView {
             Tab("Récap Journalier", systemImage: "star"){
-                RecapView(myAliments: myAliments)
+                RecapView()
             }
             
             Tab("Saisie", systemImage: "square.and.pencil"){
-                CreateAlimentView(myAliments: myAliments)
+                CreateAlimentView()
             }
             
         }

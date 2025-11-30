@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CreateAlimentView: View {
+    
+    @Environment(\.modelContext) var modelContext
+    @Query var Aliments: [Aliment]
+    
     
     @State private var nom = ""
     @State private var poidsDeReference = 0.0
@@ -16,8 +21,6 @@ struct CreateAlimentView: View {
     @State private var glucides = 0.0
     @State private var proteines = 0.0
 
-    var myAliments: MyAliments
-    
     var body: some View {
         NavigationStack{
             Form{
@@ -58,22 +61,14 @@ struct CreateAlimentView: View {
                     
                 }
                 Button("Save"){
-                    let aliment = Aliment(nom: nom, poidsDeReference: poidsDeReference, calories: calories, lipides: lipides, glucides: glucides, proteines: proteines)
-                    myAliments.aliments.append(aliment)
-                    
-                    
-                    
-                }
-                Section{
-                    Button("Add test"){
-                        
-                        let aliment = Aliment(nom: "TestAliment", poidsDeReference: 100.0, calories: 373.4, lipides: 4.2, glucides: 78.0, proteines: 4.3)
-                        myAliments.aliments.append(aliment)
+                    if !nom.isEmpty{
+                        let newAliment = Aliment(nom: nom, poidsDeReference: poidsDeReference, calories: calories, lipides: lipides, glucides: glucides, proteines: proteines)
+                        modelContext.insert(newAliment)
                     }
                 }
                 Section{
                     NavigationLink{
-                        ListAlimentView(myAliments: myAliments)
+                        ListAlimentView()
                     }
                     label: {
                         Text("Afficher la liste des aliments ")
@@ -81,11 +76,12 @@ struct CreateAlimentView: View {
                 }
             }
         }
-    
     }
     
 }
 
 #Preview {
-    CreateAlimentView(myAliments: MyAliments())
+    
+    CreateAlimentView()
+    
 }

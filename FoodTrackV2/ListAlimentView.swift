@@ -6,22 +6,29 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ListAlimentView: View {
     
-    var myAliments: MyAliments
+    @Environment(\.modelContext) var modelContext
+    @Query var Aliments: [Aliment]
+    
+    
+    @State private var selectedAliment: Aliment?
+    
+    
     
     var body: some View {
         NavigationStack{
             List{
-                ForEach(myAliments.aliments, id:\.id) { aliment in
+                ForEach(Aliments) { aliment in
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
                             Text(aliment.nom)
                                 .font(.headline)
                             Spacer()
                             Button("Modifier") {
-                               //LAter
+                               selectedAliment=aliment
                             }
                             .buttonStyle(.bordered)
                         }
@@ -31,18 +38,28 @@ struct ListAlimentView: View {
                         Text("Lipides: \(aliment.lipides, specifier: "%.1f") g")
                     }
                 }
+                .onDelete(perform: supprimerAliment)
+            }
+            .navigationTitle("Liste des aliments")
+            .sheet(item: $selectedAliment) { aliment in
+                EditAlimentView(aliment: aliment)
             }
         }
+        
+    }
+    
+    func supprimerAliment(at offsets : IndexSet){
+        for offset in offsets{
+            let aliment = Aliments[offset]
+            modelContext.delete(aliment)
+        }
+        
     }
 }
 
-#Preview {
+
     
-    let alimenttest: Aliment = Aliment(nom: "TestAliment", poidsDeReference: 100.0, calories: 373.4, lipides: 4.2, glucides: 78.0, proteines: 4.3)
-    let myAliments: MyAliments = {
-        var tmp = MyAliments()
-        tmp.aliments.append(alimenttest)
-        return tmp
-    }()
-    ListAlimentView(myAliments: myAliments)
+
+#Preview {
+    ListAlimentView()
 }

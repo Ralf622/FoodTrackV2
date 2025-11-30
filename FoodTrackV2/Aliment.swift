@@ -6,15 +6,26 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Aliment {
-    let id = UUID()
+@Model
+class Aliment{
+    
     var nom: String
     var poidsDeReference: Double
     var calories: Double
     var lipides: Double
     var glucides: Double
     var proteines: Double
+    
+    init(nom: String, poidsDeReference: Double, calories: Double, lipides: Double, glucides: Double, proteines: Double) {
+        self.nom = nom
+        self.poidsDeReference = poidsDeReference
+        self.calories = calories
+        self.lipides = lipides
+        self.glucides = glucides
+        self.proteines = proteines
+    }
 }
 
 struct Portion{
