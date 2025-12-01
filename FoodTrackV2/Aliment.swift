@@ -28,7 +28,8 @@ class Aliment{
     }
 }
 
-struct Portion{
+@Model
+class Portion{
     var aliment : Aliment
     var quantité : Double
     var calories: Double {
@@ -43,18 +44,76 @@ struct Portion{
     var proteines: Double {
         return aliment.proteines * (quantité/aliment.poidsDeReference)
     }
+    init(aliment: Aliment, quantité: Double) {
+        self.aliment = aliment
+        self.quantité = quantité
+    }
 }
-
-struct Plat{
-    var name: String
+@Model
+class Plat{
+    var nom: String
     var portions: [Portion]
     
     
     var calories: Double {
-        var total: Double = 0
-        for portion in portions {
-            total+=portion.calories
-        }
-        return total
+        portions.reduce(0) { $0 + $1.calories }
     }
+    
+    var lipides: Double {
+        portions.reduce(0) { $0 + $1.lipides }
+    }
+    
+    var glucides: Double {
+        portions.reduce(0) { $0 + $1.glucides }
+    }
+    
+    var proteines: Double {
+        portions.reduce(0) { $0 + $1.proteines }
+    }
+
+    init(nom: String, portions: [Portion]) {
+        self.nom = nom
+        self.portions = portions
+    }
+}
+
+@Model
+class ApportJournalier{
+    var date: Date
+    var portions: [Portion]
+    var plats: [Plat]
+    
+    var calories: Double {
+        let totPortions = portions.reduce(0) { $0 + $1.calories }
+        let totPlat = plats.reduce(0) { $0 + $1.calories }
+        return totPortions + totPlat
+    }
+
+    var lipides: Double {
+        let totPortions = portions.reduce(0) { $0 + $1.lipides }
+        let totPlat = plats.reduce(0) { $0 + $1.lipides }
+        return totPortions + totPlat
+    }
+
+    var glucides: Double {
+        let totPortions = portions.reduce(0) { $0 + $1.glucides }
+        let totPlat = plats.reduce(0) { $0 + $1.glucides }
+        return totPortions + totPlat
+    }
+
+    var proteines: Double {
+        let totPortions = portions.reduce(0) { $0 + $1.proteines }
+        let totPlat = plats.reduce(0) { $0 + $1.proteines }
+        return totPortions + totPlat
+    }
+    init(date: Date, portions: [Portion] = [], plats: [Plat] = []) {
+        self.date = date
+        self.portions = portions
+        self.plats = plats
+    }
+
+    
+    
+
+    
 }

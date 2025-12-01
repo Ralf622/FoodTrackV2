@@ -40,6 +40,13 @@ struct ListAlimentView: View {
                 }
                 .onDelete(perform: supprimerAliment)
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: CreateAlimentView()) {
+                        Label("Add", systemImage: "plus")
+                    }
+                }
+            }
             .navigationTitle("Liste des aliments")
             .sheet(item: $selectedAliment) { aliment in
                 EditAlimentView(aliment: aliment)

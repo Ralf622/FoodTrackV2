@@ -13,6 +13,6 @@ struct FoodTrackV2App: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Aliment.self)
+        .modelContainer(for: [Aliment.self, Portion.self, ApportJournalier.self])
     }
 }

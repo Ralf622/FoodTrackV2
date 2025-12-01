@@ -12,17 +12,15 @@ import SwiftData
 
 
 struct ContentView: View {
-    
 
-    
     var body: some View {
         TabView {
-            Tab("Récap Journalier", systemImage: "star"){
-                RecapView()
+            Tab("Saisie", systemImage: "square.and.pencil"){
+                AddFoodIntakeView()
             }
             
-            Tab("Saisie", systemImage: "square.and.pencil"){
-                CreateAlimentView()
+            Tab("Récap Journalier", systemImage: "star"){
+                RecapView()
             }
             
         }

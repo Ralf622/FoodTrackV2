@@ -12,7 +12,7 @@ struct CreateAlimentView: View {
     
     @Environment(\.modelContext) var modelContext
     @Query var Aliments: [Aliment]
-    
+    @Environment(\.dismiss) private var dismiss
     
     @State private var nom = ""
     @State private var poidsDeReference = 0.0
@@ -64,15 +64,9 @@ struct CreateAlimentView: View {
                     if !nom.isEmpty{
                         let newAliment = Aliment(nom: nom, poidsDeReference: poidsDeReference, calories: calories, lipides: lipides, glucides: glucides, proteines: proteines)
                         modelContext.insert(newAliment)
+                        dismiss()
                     }
-                }
-                Section{
-                    NavigationLink{
-                        ListAlimentView()
-                    }
-                    label: {
-                        Text("Afficher la liste des aliments ")
-                    }
+                    
                 }
             }
         }
